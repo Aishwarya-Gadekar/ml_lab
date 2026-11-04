@@ -1,0 +1,30 @@
+PRACTICAL 1: FEATURE ENGINEERING
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+
+# Load Dataset
+df = pd.read_csv("train.csv")
+
+print("Original Dataset")
+print(df.head())
+
+# Check Missing Values
+print("\nMissing Values")
+print(df.isnull().sum())
+
+# Handle Missing Values
+df['Age'].fillna(df['Age'].mean(), inplace=True)
+df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+
+# Encode Categorical Variables
+encoder = LabelEncoder()
+df['Sex'] = encoder.fit_transform(df['Sex'])
+df['Embarked'] = encoder.fit_transform(df['Embarked'])
+
+# Scale Numerical Attributes
+scaler = StandardScaler()
+df[['Age', 'Fare']] = scaler.fit_transform(df[['Age', 'Fare']])
+
+print("\nPreprocessed Dataset")
+print(df[['Age', 'Fare', 'Sex', 'Embarked']].head())
