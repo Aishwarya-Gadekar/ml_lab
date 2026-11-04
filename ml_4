@@ -1,0 +1,46 @@
+PRACTICAL 4: POLYNOMIAL REGRESSION
+Bias–Variance Analysis
+# Import required libraries
+import pandas as pd
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+# Load Dataset
+df = pd.read_csv("Salary_Data.csv")
+
+# Separate independent and dependent variables
+X = df[['YearsExperience']]
+y = df['Salary']
+
+# ---------------- Degree 2 ----------------
+poly2 = PolynomialFeatures(degree=2)
+X2 = poly2.fit_transform(X)
+
+model2 = LinearRegression()
+model2.fit(X2, y)
+
+pred2 = model2.predict(X2)
+
+# ---------------- Degree 3 ----------------
+poly3 = PolynomialFeatures(degree=3)
+X3 = poly3.fit_transform(X)
+
+model3 = LinearRegression()
+model3.fit(X3, y)
+
+pred3 = model3.predict(X3)
+
+# ---------------- Degree 5 ----------------
+poly5 = PolynomialFeatures(degree=5)
+X5 = poly5.fit_transform(X)
+
+model5 = LinearRegression()
+model5.fit(X5, y)
+
+pred5 = model5.predict(X5)
+
+# Compare R2 Scores
+print("Degree 2 R2 Score :", round(r2_score(y, pred2), 4))
+print("Degree 3 R2 Score :", round(r2_score(y, pred3), 4))
+print("Degree 5 R2 Score :", round(r2_score(y, pred5), 4))
