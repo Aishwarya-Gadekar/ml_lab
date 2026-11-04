@@ -1,0 +1,50 @@
+PRACTICAL 11: Q-LEARNING
+Reinforcement Learning in a Grid World Environment
+import numpy as np
+import random
+
+# Number of states and actions
+states = 16
+actions = 4  # 0: Up, 1: Down, 2: Left, 3: Right
+
+# Initialize Q-table
+Q = np.zeros((states, actions))
+
+# Learning parameters
+alpha = 0.1
+gamma = 0.9
+epsilon = 0.1
+episodes = 1000
+
+# Q-Learning
+for episode in range(episodes):
+    state = random.randint(0, 15)
+
+    while state != 15:
+        # Epsilon-greedy action selection
+        if random.uniform(0, 1) < epsilon:
+            action = random.randint(0, 3)  # Explore
+        else:
+            action = np.argmax(Q[state])  # Exploit
+
+        # Move to the next state (as in the lab manual)
+        next_state = min(state + 1, 15)
+
+        # Reward for reaching the goal, otherwise step penalty
+        reward = 100 if next_state == 15 else -1
+
+        # Update Q-value
+        Q[state, action] = Q[state, action] + alpha * (
+            reward + gamma * np.max(Q[next_state]) - Q[state, action]
+        )
+
+        state = next_state
+
+# Display Q-table
+print("Q Table:")
+print(Q)
+
+# Generate and display optimal policy
+policy = np.argmax(Q, axis=1)
+print("\nOptimal Policy:")
+print(policy)
