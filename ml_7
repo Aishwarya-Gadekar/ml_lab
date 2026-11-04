@@ -1,0 +1,42 @@
+PRACTICAL 7: SUPPORT VECTOR MACHINE
+Classification Using Linear and Nonlinear Kernels
+# Import required libraries
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# Load Breast Cancer Dataset
+data = load_breast_cancer()
+X = data.data
+y = data.target
+
+# Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Standardize Features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Train Linear SVM
+linear_svm = SVC(kernel='linear')
+linear_svm.fit(X_train, y_train)
+
+# Train RBF Kernel SVM
+rbf_svm = SVC(kernel='rbf')
+rbf_svm.fit(X_train, y_train)
+
+# Predictions
+linear_pred = linear_svm.predict(X_test)
+rbf_pred = rbf_svm.predict(X_test)
+
+# Compare Accuracy
+print("Linear SVM Accuracy:",
+      accuracy_score(y_test, linear_pred))
+
+print("RBF SVM Accuracy:",
+      accuracy_score(y_test, rbf_pred))
