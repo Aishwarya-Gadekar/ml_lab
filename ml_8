@@ -1,0 +1,22 @@
+PRACTICAL 8: K-MEANS CLUSTERING
+Optimal Cluster Selection Using Silhouette Score
+# Import required libraries
+from sklearn.datasets import load_iris
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+# Load Iris Dataset
+data = load_iris()
+X = data.data
+wcss = []
+
+# Apply K-Means for different values of K
+for k in range(2, 11):
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(X)
+
+    wcss.append(kmeans.inertia_)
+
+    score = silhouette_score(X, kmeans.labels_)
+
+    print("K =", k, "Silhouette Score =", score)
